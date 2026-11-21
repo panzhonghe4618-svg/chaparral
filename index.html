@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Student MyPortal</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#fff;color:#080d10}.topbar{height:46px;background:#b7d0de;display:flex;align-items:center;padding:0 24px 0 28px;gap:20px}.brand{display:flex;align-items:center;gap:18px;flex:1;font:15px Arial,Helvetica,sans-serif;letter-spacing:.2px}.brand img{width:36px;height:32px;object-fit:contain} .nav{height:100%;display:flex;align-items:stretch;gap:17px;font:15px Georgia,"Times New Roman",serif}.nav a{color:inherit;text-decoration:none;display:flex;align-items:center;padding:0 8px;position:relative}.nav a.active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:#080808}.search{width:16px;height:16px;border:2px solid #07131a;border-radius:50%;position:relative;margin:0 4px 0 9px;align-self:center}.search:after{content:"";height:8px;width:2px;background:#07131a;position:absolute;right:-7px;bottom:-8px;transform:rotate(-45deg);border-radius:3px}.apps{width:min(100% - 48px,1240px);margin:34px auto 60px;display:grid;grid-template-columns:repeat(6,minmax(0,148px));justify-content:center;column-gap:27px;row-gap:27px}.app{display:block;width:100%;aspect-ratio:1;overflow:hidden;border-radius:28px}.app img{display:block;width:100%;height:100%;object-fit:cover}@media(max-width:850px){.apps{grid-template-columns:repeat(3,minmax(0,148px));justify-content:center;gap:27px}}@media(max-width:520px){.topbar{padding:0 14px;gap:10px}.brand{font-size:18px;gap:10px}.brand img{width:42px;height:40px}.nav{gap:8px;font-size:15px}.search{width:20px;height:20px;margin-left:5px}.apps{width:calc(100% - 40px);grid-template-columns:repeat(2,minmax(0,140px));gap:27px;justify-content:space-around;margin-top:26px}.app{border-radius:24px}}
-#playfield{position:fixed;inset:0;width:100%;height:100%;z-index:20;pointer-events:none}.ball,.paddle{position:absolute;background:#000;pointer-events:none}.ball{width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%)}.paddle{width:116px;height:9px;border-radius:2px;transform:translateX(-50%);bottom:22px} .overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}.overlay[hidden]{display:none}.result{color:#ffeb00;font:bold clamp(28px,5vw,56px) Arial,sans-serif;text-align:center}.retry{background:#fff;color:#111;border:0;border-radius:8px;padding:12px 28px;font:bold 20px Arial,sans-serif;cursor:pointer}.retry:hover{background:#eee}</style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#080d10}.topbar{position:relative;z-index:60;height:46px;background:#b7d0de;display:flex;align-items:center;padding:0 24px 0 28px;gap:20px}.brand{display:flex;align-items:center;gap:18px;flex:1;font:15px Arial,Helvetica,sans-serif;letter-spacing:.2px}.brand img{width:36px;height:32px;object-fit:contain} .nav{height:100%;display:flex;align-items:stretch;gap:17px;font:15px Georgia,"Times New Roman",serif}.nav a{color:inherit;text-decoration:none;display:flex;align-items:center;padding:0 8px;position:relative}.nav a.active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:#080808}.search{width:16px;height:16px;border:2px solid #07131a;border-radius:50%;position:relative;margin:0 4px 0 9px;align-self:center}.search:after{content:"";height:8px;width:2px;background:#07131a;position:absolute;right:-7px;bottom:-8px;transform:rotate(-45deg);border-radius:3px}.apps{width:min(100% - 48px,1240px);margin:34px auto 60px;display:grid;grid-template-columns:repeat(6,minmax(0,148px));justify-content:center;column-gap:27px;row-gap:27px}.app{display:block;width:100%;aspect-ratio:1;overflow:hidden;border-radius:28px}.app img{display:block;width:100%;height:100%;object-fit:cover}@media(max-width:850px){.apps{grid-template-columns:repeat(3,minmax(0,148px));justify-content:center;gap:27px}}@media(max-width:520px){.topbar{padding:0 14px;gap:10px}.brand{font-size:18px;gap:10px}.brand img{width:42px;height:40px}.nav{gap:8px;font-size:15px}.search{width:20px;height:20px;margin-left:5px}.apps{width:calc(100% - 40px);grid-template-columns:repeat(2,minmax(0,140px));gap:27px;justify-content:space-around;margin-top:26px}.app{border-radius:24px}}
+#playfield{position:fixed;inset:0;width:100%;height:100%;z-index:20;pointer-events:none}.ball,.paddle{position:absolute;background:#000;pointer-events:none}.ball{width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%)}.paddle{width:116px;height:9px;border-radius:2px;transform:translateX(-50%);bottom:22px} .overlay{position:fixed;inset:46px 0 0;z-index:50;background:rgba(0,0,0,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}.overlay[hidden]{display:none}.result{color:#ffeb00;font:bold clamp(28px,5vw,56px) Arial,sans-serif;text-align:center}.retry{background:#fff;color:#111;border:0;border-radius:8px;padding:12px 28px;font:bold 20px Arial,sans-serif;cursor:pointer}.retry:hover{background:#eee} .bookmarks{display:none;width:min(100% - 48px,2328px);margin:38px auto 60px;grid-template-columns:repeat(3,minmax(0,1fr));gap:30px}.bookmarks.visible{display:grid}.bookmark-group h2{text-align:center;font:20px Georgia,"Times New Roman",serif;margin:0 0 20px;color:#333}.bookmark-list{display:grid;gap:27px}.bookmark-list a{height:44px;border:1.5px solid #111;border-radius:6px;background:#b7d0de;display:flex;justify-content:center;align-items:center;color:#111;text-decoration:none;font:16px Georgia,"Times New Roman",serif}.bookmark-list a:hover{background:#a8c5d6}.bookmark-list a.cracked{background-color:#9fb8c7;background-image:linear-gradient(135deg,transparent 47.6%,#26313a 47.8%,#26313a 48.2%,transparent 48.4%),linear-gradient(35deg,transparent 61.8%,#26313a 62%,#26313a 62.4%,transparent 62.6%),linear-gradient(115deg,transparent 34.8%,#26313a 35%,#26313a 35.4%,transparent 35.6%),linear-gradient(70deg,transparent 72%,#26313a 72.2%,#26313a 72.5%,transparent 72.7%),linear-gradient(155deg,transparent 22%,#26313a 22.2%,#26313a 22.5%,transparent 22.7%),linear-gradient(5deg,transparent 83%,#26313a 83.2%,#26313a 83.5%,transparent 83.7%),linear-gradient(98deg,transparent 54%,#26313a 54.2%,#26313a 54.5%,transparent 54.7%),linear-gradient(42deg,transparent 12%,#26313a 12.2%,#26313a 12.5%,transparent 12.7%)}.bookmark-list a.shake{animation:tile-shake .28s ease-in-out}@keyframes tile-shake{0%,100%{translate:0 0}25%{translate:-5px 1px}50%{translate:5px -1px}75%{translate:-3px 0}}.bookmark-group:first-child .bookmark-list a:nth-child(n+9){display:none}@media(max-width:800px){.bookmarks{grid-template-columns:1fr;max-width:520px}.bookmark-group h2{text-align:left}} .topbar .nav{position:relative;z-index:61}</style>
 </head>
 <body>
 <header class="topbar">
   <div class="brand"><img src="school-tree.png" alt="School tree"><span>Student MyPortal</span></div>
-  <nav class="nav" aria-label="Main navigation"><a class="active" href="#">Home</a><a href="#">Bookmarks</a><span class="search" role="img" aria-label="Search"></span></nav>
+  <nav class="nav" aria-label="Main navigation"><a class="active" href="#" data-page="home">Home</a><a href="#" data-page="bookmarks">Bookmarks</a><span class="search" role="img" aria-label="Search"></span></nav>
 </header>
 <main class="apps" aria-label="Student apps">
 <a class="app" href="#" aria-label="Google Classroom"><img src="google-classroom.png" alt="Google Classroom"></a>
@@ -32,37 +32,49 @@
 <a class="app" href="#" aria-label="Aeries Student"><img src="aeries.png" alt="Aeries Student"></a>
 <a class="app" href="#" aria-label="Gmail"><img src="gmail.png" alt="Gmail"></a>
 <a class="app" href="#" aria-label="TCT"><img src="tct.png" alt="TCT"></a></main>
-<canvas id="playfield" aria-label="小球游戏区域"></canvas>
-<div id="resultOverlay" class="overlay" hidden><div id="resultText" class="result"></div><button id="retryButton" class="retry">再来一把</button></div>
+<main id="bookmarkPage" class="bookmarks" aria-label="Bookmarks">
+<section class="bookmark-group"><h2>Language Arts</h2><div class="bookmark-list"><a>Epic! Books</a><a>ABCya</a><a>Vocabulary A-Z</a><a>Scholastic News</a><a>Readworks</a><a>Reading Eggs</a><a>i-Ready</a><a>AR Home Connect</a><a>Avant Assessment</a></div></section>
+<section class="bookmark-group"><h2>Math</h2><div class="bookmark-list"><a>Khan Academy</a><a>Prodigy Math</a><a>Splash Math</a><a>Sum Dog</a><a>Xtra Math</a><a>Freckle</a><a>MathSeeds</a></div></section>
+<section class="bookmark-group"><h2>Science/Social Studies</h2><div class="bookmark-list"><a>Mystery Science</a><a>National Geographic</a><a>PBS Build</a><a>STEM Activity Guide</a><a>Science News</a><a>myPLTW</a><a>Phet</a></div></section>
+</main><canvas id="playfield" aria-label="小球游戏区域"></canvas>
+<div id="resultOverlay" class="overlay"><div id="resultText" class="result"></div><button id="retryButton" class="retry">再来一把</button></div>
 <script>
 (()=>{
- const canvas=document.getElementById('playfield'),ctx=canvas.getContext('2d');
+ const canvas=document.getElementById('playfield'),ctx=canvas.getContext('2d'); const homePage=document.querySelector('.apps'),bookmarkPage=document.getElementById('bookmarkPage');
+document.querySelectorAll('.nav a[data-page]').forEach(link=>link.addEventListener('click',e=>{e.preventDefault();if(gameStarted&&ball.active)return;const bookmarks=link.dataset.page==='bookmarks';homePage.style.display=bookmarks?'none':'grid';bookmarkPage.classList.toggle('visible',bookmarks);document.querySelectorAll('.nav a[data-page]').forEach(a=>a.classList.toggle('active',a===link));prepareView(bookmarks);}));
  const paddle={x:innerWidth/2,width:116,height:9,bottom:22,speed:460,left:false,right:false};
- const ball={x:innerWidth*.5,y:innerHeight-paddle.bottom-paddle.height-6,r:6,vx:110,vy:-135,active:true};
- let firstPaddleHit=true;
- const tiles=[...document.querySelectorAll('.app')].map(el=>({el,active:true})),falling=[];
- const overlay=document.getElementById('resultOverlay'),resultText=document.getElementById('resultText');
- function finish(win){if(!ball.active)return;ball.active=false;resultText.textContent=win?'你赢了! 恭喜🎊 再来一把':'出局了! 可惜😢 再来一把';overlay.hidden=false;}
- function resetGame(){for(const t of tiles){t.active=true;t.el.style.transform='' ;t.el.style.opacity='' ;t.el.style.visibility='' ;t.el.style.pointerEvents='' ;}falling.length=0;paddle.x=innerWidth/2;paddle.left=paddle.right=false;ball.x=innerWidth/2;ball.y=innerHeight-paddle.bottom-paddle.height-ball.r;lastX=ball.x;lastY=ball.y;lastMove=performance.now();ball.vx=190;ball.vy=-235;firstPaddleHit=false;ball.active=true;overlay.hidden=true;}
- document.getElementById('retryButton').addEventListener('click',resetGame);
+ const startAngle= (210+Math.random()*120)*Math.PI/180;
+ const ball={x:innerWidth*.5,y:innerHeight-paddle.bottom-paddle.height-6,r:6,vx:Math.cos(startAngle)*174,vy:Math.sin(startAngle)*174,active:true};
+ let firstPaddleHit=true,gameStarted=false;
+ const tiles=[...document.querySelectorAll('.app')].map(el=>({el,active:true})),bookmarkTiles=[...document.querySelectorAll('.bookmark-group')].flatMap((group,index)=>[...group.querySelectorAll('.bookmark-list a')].filter((el,i)=>index!==0||i<8).map(el=>({el,active:true,hits:0,twoHits:true}))),falling=[];
+ const overlay=document.getElementById('resultOverlay'),resultText=document.getElementById('resultText'),retryButton=document.getElementById('retryButton');
+ resultText.innerHTML='Welcome! Ready?<br>欢迎，准备好了吗？';retryButton.textContent='Ready / 准备好了';
+ function finish(win){if(!ball.active)return;ball.active=false;resultText.innerHTML=win?'You win! Congratulations!<br>你赢了！恭喜！':'You are out! Better luck next time!<br>出局了！下次加油！';overlay.hidden=false;}
+ function resetGame(){for(const t of [...tiles,...bookmarkTiles]){t.active=true;t.hits=0;t.el.classList.remove("cracked","shake");t.el.style.transform='' ;t.el.style.opacity='' ;t.el.style.visibility='' ;t.el.style.pointerEvents='' ;}falling.length=0;paddle.x=innerWidth/2;paddle.left=paddle.right=false;ball.x=innerWidth/2;ball.y=innerHeight-paddle.bottom-paddle.height-ball.r;lastX=ball.x;lastY=ball.y;lastMove=performance.now();const angle=(210+Math.random()*120)*Math.PI/180;ball.vx=Math.cos(angle)*302;ball.vy=Math.sin(angle)*302;firstPaddleHit=false;ball.active=true;overlay.hidden=true;}
+ function prepareView(bookmarks){for(const t of [...tiles,...bookmarkTiles]){t.active=true;t.hits=0;t.el.classList.remove("cracked","shake");t.el.style.transform="";t.el.style.opacity="";t.el.style.visibility="";t.el.style.pointerEvents="";}falling.length=0;gameStarted=false;ball.active=true;paddle.x=innerWidth/2;paddle.left=paddle.right=false;const angle=(210+Math.random()*120)*Math.PI/180;ball.x=innerWidth/2;ball.y=innerHeight-paddle.bottom-paddle.height-ball.r;ball.vx=Math.cos(angle)*174;ball.vy=Math.sin(angle)*174;firstPaddleHit=true;lastMove=performance.now();lastX=ball.x;lastY=ball.y;resultText.innerHTML='Welcome! Ready?<br>欢迎，准备好了吗？';retryButton.textContent=bookmarks?'Open Bookmarks / 打开书签':'Ready / 准备好了';overlay.hidden=false;}
+ retryButton.addEventListener('click',()=>{if(!gameStarted){gameStarted=true;retryButton.textContent='Play Again / 再来一把';lastMove=performance.now();lastX=ball.x;lastY=ball.y;overlay.hidden=true;}else resetGame();});
  let last=performance.now(),dpr=1,lastMove=performance.now(),lastX=ball.x,lastY=ball.y;
  function resize(){dpr=Math.max(1,devicePixelRatio||1);canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0);paddle.x=Math.min(innerWidth-paddle.width/2,Math.max(paddle.width/2,paddle.x));}
  addEventListener('resize',resize);resize();
  document.onkeydown=e=>{const key=e.key.toLowerCase();if(key==='arrowleft'||key==='a'){e.preventDefault();paddle.left=true;paddle.right=false;}else if(key==='arrowright'||key==='d'){e.preventDefault();paddle.right=true;paddle.left=false;}};
- document.onkeyup=e=>{const key=e.key.toLowerCase();if(key==='arrowleft'||key==='a')paddle.left=false;if(key==='arrowright'||key==='d')paddle.right=false;};addEventListener('blur',()=>{paddle.left=paddle.right=false;});
- function frame(now){const dt=Math.min((now-last)/1000,.035);last=now;if(ball.active&&(!Number.isFinite(ball.x)||!Number.isFinite(ball.y)||ball.x===null||ball.y===null)){ball.active=false;resultText.textContent='出bug了! 不好意思';overlay.hidden=false;}
-  if(paddle.left)paddle.x-=paddle.speed*dt;if(paddle.right)paddle.x+=paddle.speed*dt;paddle.x=Math.max(paddle.width/2,Math.min(innerWidth-paddle.width/2,paddle.x));
-  if(ball.active){ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
-   if(Math.abs(ball.x-lastX)>.1||Math.abs(ball.y-lastY)>.1){lastMove=now;lastX=ball.x;lastY=ball.y;}else if(now-lastMove>=600){ball.active=false;resultText.textContent='出bug了! 不好意思';overlay.hidden=false;}
+ document.onkeyup=e=>{const key=e.key.toLowerCase();if(key==='arrowleft'||key==='a')paddle.left=false;if(key==='arrowright'||key==='d')paddle.right=false;};addEventListener('blur',()=>{paddle.left=paddle.right=false;}); let touchControl=false;
+ function movePaddleTo(x){paddle.x=Math.max(paddle.width/2,Math.min(innerWidth-paddle.width/2,x));}
+ document.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch'||!gameStarted||overlay.hidden===false||e.target.closest('.topbar'))return;touchControl=true;movePaddleTo(e.clientX);e.preventDefault();},{passive:false});
+ document.addEventListener('pointermove',e=>{if(!touchControl)return;movePaddleTo(e.clientX);e.preventDefault();},{passive:false});
+ document.addEventListener('pointerup',()=>{touchControl=false});document.addEventListener('pointercancel',()=>{touchControl=false});
+ function frame(now){const dt=Math.min((now-last)/1000,.035);last=now;if(ball.active&&(!Number.isFinite(ball.x)||!Number.isFinite(ball.y)||ball.x===null||ball.y===null)){ball.active=false;resultText.innerHTML='Something went wrong! Sorry.<br>出 bug 了！不好意思。';overlay.hidden=false;}
+  if(gameStarted&&paddle.left)paddle.x-=paddle.speed*dt;if(gameStarted&&paddle.right)paddle.x+=paddle.speed*dt;paddle.x=Math.max(paddle.width/2,Math.min(innerWidth-paddle.width/2,paddle.x));
+  if(ball.active&&gameStarted){ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
+   if(Math.abs(ball.x-lastX)>.1||Math.abs(ball.y-lastY)>.1){lastMove=now;lastX=ball.x;lastY=ball.y;}else if(now-lastMove>=600){ball.active=false;resultText.innerHTML='Something went wrong! Sorry.<br>出 bug 了！不好意思。';overlay.hidden=false;}
    if(ball.x-ball.r<0){ball.x=ball.r;ball.vx=Math.abs(ball.vx)}if(ball.x+ball.r>innerWidth){ball.x=innerWidth-ball.r;ball.vx=-Math.abs(ball.vx)}
    const navBottom=document.querySelector('.topbar').getBoundingClientRect().bottom;
    if(ball.y-ball.r<navBottom&&ball.vy<0){ball.y=navBottom+ball.r;ball.vy=Math.abs(ball.vy)}
-   for(const tile of tiles){if(!tile.active)continue;const r=tile.el.getBoundingClientRect();if(r.width===0||r.height===0)continue;
+   const targets=bookmarkPage.classList.contains("visible")?bookmarkTiles:tiles;for(const tile of targets){if(!tile.active)continue;const r=tile.el.getBoundingClientRect();if(r.width===0||r.height===0)continue;
     const px=Math.max(r.left,Math.min(ball.x,r.right)),pyHit=Math.max(r.top,Math.min(ball.y,r.bottom)),dx=ball.x-px,dy=ball.y-pyHit;
-    if(dx*dx+dy*dy<=ball.r*ball.r){tile.active=false;tile.el.style.pointerEvents='none';falling.push({el:tile.el,age:0});
+    if(dx*dx+dy*dy<=ball.r*ball.r){if(tile.twoHits&&tile.hits===0){tile.hits=1;tile.el.classList.add('cracked','shake');setTimeout(()=>tile.el.classList.remove('shake'),300);}else{tile.active=false;tile.el.style.pointerEvents='none';falling.push({el:tile.el,age:0});}
      if(Math.abs(dx)>Math.abs(dy)){ball.vx=dx<0?-Math.abs(ball.vx):Math.abs(ball.vx);ball.x=dx<0?r.left-ball.r:r.right+ball.r;}
      else{ball.vy=dy<0?-Math.abs(ball.vy):Math.abs(ball.vy);ball.y=dy<0?r.top-ball.r:r.bottom+ball.r;}
-     if(tiles.every(t=>!t.active))finish(true);
+     if(targets.every(t=>!t.active))finish(true);
      break;
     }
    }
@@ -77,6 +89,21 @@
 })();
 </script></body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
