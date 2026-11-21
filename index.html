@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student MyPortal</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#fff;color:#080d10}.topbar{height:46px;background:#b7d0de;display:flex;align-items:center;padding:0 24px 0 28px;gap:20px}.brand{display:flex;align-items:center;gap:18px;flex:1;font:15px Arial,Helvetica,sans-serif;letter-spacing:.2px}.brand img{width:36px;height:32px;object-fit:contain} .nav{height:100%;display:flex;align-items:stretch;gap:17px;font:15px Georgia,"Times New Roman",serif}.nav a{color:inherit;text-decoration:none;display:flex;align-items:center;padding:0 8px;position:relative}.nav a.active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:#080808}.search{width:16px;height:16px;border:2px solid #07131a;border-radius:50%;position:relative;margin:0 4px 0 9px;align-self:center}.search:after{content:"";height:8px;width:2px;background:#07131a;position:absolute;right:-7px;bottom:-8px;transform:rotate(-45deg);border-radius:3px}.apps{width:min(100% - 48px,1240px);margin:34px auto 60px;display:grid;grid-template-columns:repeat(6,minmax(0,148px));justify-content:center;column-gap:27px;row-gap:27px}.app{display:block;width:100%;aspect-ratio:1;overflow:hidden;border-radius:28px}.app img{display:block;width:100%;height:100%;object-fit:cover}@media(max-width:850px){.apps{grid-template-columns:repeat(3,minmax(0,148px));justify-content:center;gap:27px}}@media(max-width:520px){.topbar{padding:0 14px;gap:10px}.brand{font-size:18px;gap:10px}.brand img{width:42px;height:40px}.nav{gap:8px;font-size:15px}.search{width:20px;height:20px;margin-left:5px}.apps{width:calc(100% - 40px);grid-template-columns:repeat(2,minmax(0,140px));gap:27px;justify-content:space-around;margin-top:26px}.app{border-radius:24px}}
+#playfield{position:fixed;inset:0;width:100%;height:100%;z-index:20;pointer-events:none}.ball,.paddle{position:absolute;background:#000;pointer-events:none}.ball{width:12px;height:12px;border-radius:50%;transform:translate(-50%,-50%)}.paddle{width:116px;height:9px;border-radius:2px;transform:translateX(-50%);bottom:22px} .overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.7);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}.overlay[hidden]{display:none}.result{color:#ffeb00;font:bold clamp(28px,5vw,56px) Arial,sans-serif;text-align:center}.retry{background:#fff;color:#111;border:0;border-radius:8px;padding:12px 28px;font:bold 20px Arial,sans-serif;cursor:pointer}.retry:hover{background:#eee}</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><img src="school-tree.png" alt="School tree"><span>Student MyPortal</span></div>
+  <nav class="nav" aria-label="Main navigation"><a class="active" href="#">Home</a><a href="#">Bookmarks</a><span class="search" role="img" aria-label="Search"></span></nav>
+</header>
+<main class="apps" aria-label="Student apps">
+<a class="app" href="#" aria-label="Google Classroom"><img src="google-classroom.png" alt="Google Classroom"></a>
+<a class="app" href="#" aria-label="Imagine Learning Language and Literacy"><img src="imagine-learning.png" alt="Imagine Learning Language and Literacy"></a>
+<a class="app" href="#" aria-label="Destiny Discover"><img src="destiny-discover.png" alt="Destiny Discover"></a>
+<a class="app" href="#" aria-label="Benchmark Education"><img src="benchmark-education.png" alt="Benchmark Education"></a>
+<a class="app" href="#" aria-label="RenPlace Student"><img src="renplace-student.png" alt="RenPlace Student"></a>
+<a class="app" href="#" aria-label="Amira Learning"><img src="amira-learning.png" alt="Amira Learning"></a>
+<a class="app" href="#" aria-label="BrainPOP"><img src="brainpop.png" alt="BrainPOP"></a>
+<a class="app" href="#" aria-label="Clever"><img src="clever.png" alt="Clever"></a>
+<a class="app" href="#" aria-label="ST Math"><img src="st-math.png" alt="ST Math"></a>
+<a class="app" href="#" aria-label="THINKcentral"><img src="think-central.png" alt="THINKcentral"></a>
+<a class="app" href="#" aria-label="Illuminate QuickTest"><img src="illuminate-quicktest.png" alt="Illuminate QuickTest"></a>
+<a class="app" href="#" aria-label="Illuminate Student Access"><img src="illuminate.png" alt="Illuminate Student Access"></a>
+<a class="app" href="#" aria-label="F"><img src="f.png" alt="F"></a>
+<a class="app" href="#" aria-label="ALEKS"><img src="aleks.png" alt="ALEKS"></a>
+<a class="app" href="#" aria-label="Big Ideas Learning"><img src="big-ideas.png" alt="Big Ideas Learning"></a>
+<a class="app" href="#" aria-label="Aeries Student"><img src="aeries.png" alt="Aeries Student"></a>
+<a class="app" href="#" aria-label="Gmail"><img src="gmail.png" alt="Gmail"></a>
+<a class="app" href="#" aria-label="TCT"><img src="tct.png" alt="TCT"></a></main>
+<canvas id="playfield" aria-label="小球游戏区域"></canvas>
+<div id="resultOverlay" class="overlay" hidden><div id="resultText" class="result"></div><button id="retryButton" class="retry">再来一把</button></div>
+<script>
+(()=>{
+ const canvas=document.getElementById('playfield'),ctx=canvas.getContext('2d');
+ const paddle={x:innerWidth/2,width:116,height:9,bottom:22,speed:460,left:false,right:false};
+ const ball={x:innerWidth*.5,y:innerHeight-paddle.bottom-paddle.height-6,r:6,vx:110,vy:-135,active:true};
+ let firstPaddleHit=true;
+ const tiles=[...document.querySelectorAll('.app')].map(el=>({el,active:true})),falling=[];
+ const overlay=document.getElementById('resultOverlay'),resultText=document.getElementById('resultText');
+ function finish(win){if(!ball.active)return;ball.active=false;resultText.textContent=win?'你赢了! 恭喜🎊 再来一把':'出局了! 可惜😢 再来一把';overlay.hidden=false;}
+ function resetGame(){for(const t of tiles){t.active=true;t.el.style.transform='' ;t.el.style.opacity='' ;t.el.style.visibility='' ;t.el.style.pointerEvents='' ;}falling.length=0;paddle.x=innerWidth/2;paddle.left=paddle.right=false;ball.x=innerWidth/2;ball.y=innerHeight-paddle.bottom-paddle.height-ball.r;lastX=ball.x;lastY=ball.y;lastMove=performance.now();ball.vx=190;ball.vy=-235;firstPaddleHit=false;ball.active=true;overlay.hidden=true;}
+ document.getElementById('retryButton').addEventListener('click',resetGame);
+ let last=performance.now(),dpr=1,lastMove=performance.now(),lastX=ball.x,lastY=ball.y;
+ function resize(){dpr=Math.max(1,devicePixelRatio||1);canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0);paddle.x=Math.min(innerWidth-paddle.width/2,Math.max(paddle.width/2,paddle.x));}
+ addEventListener('resize',resize);resize();
+ document.onkeydown=e=>{const key=e.key.toLowerCase();if(key==='arrowleft'||key==='a'){e.preventDefault();paddle.left=true;paddle.right=false;}else if(key==='arrowright'||key==='d'){e.preventDefault();paddle.right=true;paddle.left=false;}};
+ document.onkeyup=e=>{const key=e.key.toLowerCase();if(key==='arrowleft'||key==='a')paddle.left=false;if(key==='arrowright'||key==='d')paddle.right=false;};addEventListener('blur',()=>{paddle.left=paddle.right=false;});
+ function frame(now){const dt=Math.min((now-last)/1000,.035);last=now;if(ball.active&&(!Number.isFinite(ball.x)||!Number.isFinite(ball.y)||ball.x===null||ball.y===null)){ball.active=false;resultText.textContent='出bug了! 不好意思';overlay.hidden=false;}
+  if(paddle.left)paddle.x-=paddle.speed*dt;if(paddle.right)paddle.x+=paddle.speed*dt;paddle.x=Math.max(paddle.width/2,Math.min(innerWidth-paddle.width/2,paddle.x));
+  if(ball.active){ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;
+   if(Math.abs(ball.x-lastX)>.1||Math.abs(ball.y-lastY)>.1){lastMove=now;lastX=ball.x;lastY=ball.y;}else if(now-lastMove>=600){ball.active=false;resultText.textContent='出bug了! 不好意思';overlay.hidden=false;}
+   if(ball.x-ball.r<0){ball.x=ball.r;ball.vx=Math.abs(ball.vx)}if(ball.x+ball.r>innerWidth){ball.x=innerWidth-ball.r;ball.vx=-Math.abs(ball.vx)}
+   const navBottom=document.querySelector('.topbar').getBoundingClientRect().bottom;
+   if(ball.y-ball.r<navBottom&&ball.vy<0){ball.y=navBottom+ball.r;ball.vy=Math.abs(ball.vy)}
+   for(const tile of tiles){if(!tile.active)continue;const r=tile.el.getBoundingClientRect();if(r.width===0||r.height===0)continue;
+    const px=Math.max(r.left,Math.min(ball.x,r.right)),pyHit=Math.max(r.top,Math.min(ball.y,r.bottom)),dx=ball.x-px,dy=ball.y-pyHit;
+    if(dx*dx+dy*dy<=ball.r*ball.r){tile.active=false;tile.el.style.pointerEvents='none';falling.push({el:tile.el,age:0});
+     if(Math.abs(dx)>Math.abs(dy)){ball.vx=dx<0?-Math.abs(ball.vx):Math.abs(ball.vx);ball.x=dx<0?r.left-ball.r:r.right+ball.r;}
+     else{ball.vy=dy<0?-Math.abs(ball.vy):Math.abs(ball.vy);ball.y=dy<0?r.top-ball.r:r.bottom+ball.r;}
+     if(tiles.every(t=>!t.active))finish(true);
+     break;
+    }
+   }
+   const py=innerHeight-paddle.bottom-paddle.height;
+   if(ball.vy>0&&ball.y+ball.r>=py&&ball.y-ball.r<py+paddle.height&&ball.x>=paddle.x-paddle.width/2-ball.r&&ball.x<=paddle.x+paddle.width/2+ball.r){ball.y=py-ball.r;const hit=Math.max(-1,Math.min(1,(ball.x-paddle.x)/(paddle.width/2)));const speed=firstPaddleHit?Math.hypot(190,235):Math.hypot(ball.vx,ball.vy);firstPaddleHit=false;ball.vx=hit*Math.min(250,speed*.82);ball.vy=-Math.sqrt(Math.max(190*190,speed*speed-ball.vx*ball.vx));}
+   if(ball.y-ball.r>innerHeight)finish(false);
+  }
+  for(let i=falling.length-1;i>=0;i--){const f=falling[i];f.age+=dt;const t=Math.min(f.age/1.35,1);f.el.style.transform=`translateY(${230*t*t}px)`;f.el.style.opacity=String((1-t)*(1-t)*(1-t));if(t>=1){f.el.style.visibility='hidden';falling.splice(i,1);}}
+  ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle='#000';if(ball.active){ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);ctx.fill();}ctx.beginPath();ctx.roundRect(paddle.x-paddle.width/2,innerHeight-paddle.bottom-paddle.height,paddle.width,paddle.height,4.5);ctx.fill();requestAnimationFrame(frame);
+ }
+ requestAnimationFrame(frame);
+})();
+</script></body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
